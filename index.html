@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue-Piano</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css' />
+    <link rel="stylesheet" href="/stylesheets/all.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="audioPlayer" v-for="s in soundDate">
+            <!-- <label>{{s.num}}</label> -->
+            <audio :data-num="s.num">
+                <source :src="s.url" type="audio/ogg"></source>
+            </audio>
+        </div>
+        <div class="center_box">
+            <h2>Vue.js Piano</h2>
+            <div class="keyboard">
+                <div class="pianoKey" v-for="key in display_keys" @click="addNote(key.num)">
+                    <div class="white" v-if="key.type=='white'" :class="get_current(key.num,key.key)?'playing':''">
+                        <div class="label"> {{String.fromCharCode(key.key)}}</div>
+                    </div>
+                    <div class="black" v-if="key.type=='black'" :class="get_current(key.num,key.key)?'playing':''">
+                        <div class="label">{{String.fromCharCode(key.key)}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="controls">
+                <ul v-if="notes.length>0">
+                    <li v-for="(note,id) in notes" @click="playNote(note.num,1)" :class="now_note_id==id+1?'playing':''">
+                        <div class="num">{{note.num}}</div>
+                        <div class="time">{{note.time}}</div>
+                    </li>
+                </ul>
+            </div>
+            <button @click="load_sample">Sample
+                <i class="fas fa-music"></i>
+            </button>
+            <button @click="playNext(1)">PlayNext
+                <i class="fas fa-step-forward"></i>
+            </button>
+            <button @click="startPlay" v-if="playing_time==0">Play
+                <i class="fa fa-play"></i>
+            </button>
+            <button @click="stopPlay" v-if="playing_time>0">StopPlay
+                <i class="fa fa-pause"></i>
+            </button>
+            <button @click="startRecord" v-if="record_time==0">Record
+                <i class="fa fa-circle"></i>
+            </button>
+            <button @click="stopRecord" v-if="record_time>0">StopRecord
+                <i class="fa fa-stop"></i>
+            </button>
+            <button @click="clear">Clear
+                <i class="fas fa-trash-alt"></i>
+            </button>
+            <h4>{{playing_time+record_time}}</h4>
+        </div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js'></script>
+    <script src="/javascript/all.js"></script>
+</body>
+
+</html>

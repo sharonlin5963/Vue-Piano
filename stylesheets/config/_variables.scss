@@ -1,0 +1,10 @@
+$key_width: 44px;
+$key_height: 300px;
+$color_lightWhite: #fff;
+$color_white: #eee;
+$color_black: #585858;
+$color_purple:#9E51C2;
+@mixin size($w, $h) {
+    width: $w;
+    height: $h;
+}
